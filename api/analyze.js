@@ -50,14 +50,14 @@ Respond ONLY with a valid JSON object in this exact structure (no markdown, no e
 }`;
 
   try {
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    const response = await fetch('https://api.groq.com/openai/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
+        'Authorization': `Bearer ${process.env.GROQ_API_KEY}`
       },
       body: JSON.stringify({
-        model: 'gpt-4o-mini',
+        model: 'llama3-70b-8192',
         messages: [{ role: 'user', content: prompt }],
         max_tokens: 1500,
         temperature: 0.4
@@ -66,7 +66,7 @@ Respond ONLY with a valid JSON object in this exact structure (no markdown, no e
 
     if (!response.ok) {
       const err = await response.json();
-      return res.status(500).json({ error: 'OpenAI error', details: err });
+      return res.status(500).json({ error: 'Groq error', details: err });
     }
 
     const data = await response.json();
